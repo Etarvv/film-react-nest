@@ -1,18 +1,18 @@
+import {ConfigModule} from "@nestjs/config";
+
 export const configProvider = {
+    imports: [ConfigModule.forRoot()],
     provide: 'CONFIG',
-    useFactory: (): AppConfig => ({
-        database: {
-            driver: process.env.DATABASE_DRIVER ?? 'memory',
-            url: process.env.DATABASE_URL ?? 'mongodb://localhost:27017/afisha',
-        },
-    }),
-};
+    useValue: < AppConfig> {
+        //TODO прочесть переменнные среды
+    },
+}
 
 export interface AppConfig {
-    database: AppConfigDatabase;
+    database: AppConfigDatabase
 }
 
 export interface AppConfigDatabase {
-    driver: string; // 'memory' | 'mongodb'
-    url: string;
+    driver: string
+    url: string
 }

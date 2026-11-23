@@ -4,10 +4,10 @@ import {
 } from 'class-validator';
 
 export class TicketDto {
-  @IsString() film: string;     // id фильма
-  @IsString() session: string;  // id сеанса
+  @IsString() film: string;     
+  @IsString() session: string;  
   @IsOptional() @IsString() daytime?: string;
-  @IsOptional() @IsString() day?: string;   // поля, которые шлёт фронтенд для корзины
+  @IsOptional() @IsString() day?: string;   
   @IsOptional() @IsString() time?: string;
   @IsInt() @Min(1) row: number;
   @IsInt() @Min(1) seat: number;
@@ -26,7 +26,7 @@ export class CreateOrderDto {
 }
 
 export class OrderResultDto extends TicketDto {
-  id: string; // фронтенд ждёт OrderResult = Ticket + id
+  id: string;
 }
 
 export class OrderResponseDto {

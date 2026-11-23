@@ -17,7 +17,7 @@ export class SessionDto {
   rows: number;
   seats: number;
   price: number;
-  taken: string[]; // `${row}:${seat}`
+  taken: string[];
 }
 
 export class ListResponseDto<T> {

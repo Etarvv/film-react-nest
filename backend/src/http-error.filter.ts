@@ -1,7 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Response } from 'express';
 
-/** Фронтенд (Api._handleResponse) читает текст ошибки из поля `error`. */
 @Catch()
 export class HttpErrorFilter implements ExceptionFilter {
   private readonly logger = new Logger(HttpErrorFilter.name);
@@ -17,7 +16,6 @@ export class HttpErrorFilter implements ExceptionFilter {
       });
     }
 
-    // ошибки express/serve-static (например, файл не найден) несут свой status
     const status = (exception as any)?.status ?? (exception as any)?.statusCode;
     if (typeof status === 'number' && status >= 400 && status < 500) {
       return res.status(status).json({ error: (exception as any).message });

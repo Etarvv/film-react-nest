@@ -8,7 +8,6 @@ export class OrderService {
   constructor(private readonly repo: FilmsRepository) {}
 
   async createOrder(dto: CreateOrderDto): Promise<OrderResponseDto> {
-    // 1. группируем места по (фильм, сеанс) и ловим дубли внутри самого заказа
     const groups = new Map<string, { film: string; session: string; seats: string[] }>();
     for (const t of dto.tickets) {
       const key = `${t.film}|${t.session}`;
@@ -21,10 +20,8 @@ export class OrderService {
       groups.set(key, g);
     }
 
-    // 2. валидируем границы зала и уже занятые места
     for (const t of dto.tickets) this.validateSeat(t, await this.getSession(t));
 
-    // 3. бронируем (в репозитории проверка + запись атомарны)
     for (const g of groups.values()) {
       const ok = await this.repo.reserveSeats(g.film, g.session, g.seats);
       if (!ok) throw new ConflictException('Одно из выбранных мест уже занято');

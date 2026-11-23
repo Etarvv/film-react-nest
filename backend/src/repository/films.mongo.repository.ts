@@ -8,7 +8,6 @@ export class MongoFilmsRepository extends FilmsRepository {
     super();
   }
 
-  // конвертеры сущность mongoose -> DTO
   private toFilmDto(f: Film): FilmDto {
     const { id, rating, director, tags, image, cover, title, about, description } = f;
     return { id, rating, director, tags, image, cover, title, about, description };
@@ -30,7 +29,6 @@ export class MongoFilmsRepository extends FilmsRepository {
   }
 
   async reserveSeats(filmId: string, sessionId: string, seats: string[]) {
-    // условие "ни одно из мест не занято" и запись — одна атомарная операция
     const res = await this.filmModel.updateOne(
       { id: filmId, schedule: { $elemMatch: { id: sessionId, taken: { $nin: seats } } } },
       { $push: { 'schedule.$.taken': { $each: seats } } },
