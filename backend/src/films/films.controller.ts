@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { FilmIdParamDto } from './films.dto';
 import { FilmsService } from './films.service';
 
 @Controller('films')
@@ -11,7 +12,7 @@ export class FilmsController {
   }
 
   @Get(':id/schedule')
-  getSchedule(@Param('id') id: string) {
+  getSchedule(@Param() { id }: FilmIdParamDto) {
     return this.filmsService.getSchedule(id);
   }
 }
